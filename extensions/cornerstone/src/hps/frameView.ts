@@ -43,6 +43,944 @@ const frameView: Types.HangingProtocol.Protocol = {
   stages: [
     {
       name: 'frameView',
+      id: '5x5',
+      viewportStructure: {
+        layoutType: 'grid',
+        properties: {
+          rows: 5,
+          columns: 5,
+        },
+      },
+      viewports: [
+        {
+          viewportOptions: {
+            viewportId: 'custom_R0_C0',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 0,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R0_C1',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 1,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R0_C2',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 2,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R0_C3',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 3,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R0_C4',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 4,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R1_C0',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 5,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R1_C1',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 6,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R1_C2',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 7,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R1_C3',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 8,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R1_C4',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 9,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R2_C0',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 10,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R2_C1',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 11,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R2_C2',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 12,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R2_C3',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 13,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R2_C4',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 14,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R3_C0',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 15,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R3_C1',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 16,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R3_C2',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 17,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R3_C3',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 18,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R3_C4',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 19,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R4_C0',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 20,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R4_C1',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 21,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R4_C2',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 22,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R4_C3',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 23,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+        {
+          viewportOptions: {
+            viewportId: 'custom_R4_C4',
+            toolGroupId: 'default',
+            syncGroups: [
+              {
+                type: 'zoompan',
+                id: 'zoompansync',
+                source: true,
+                target: true,
+              },
+              {
+                type: 'voi',
+                id: 'wlsync',
+                source: true,
+                target: true,
+                options: {
+                  syncColormap: true,
+                },
+              },
+              {
+                type: 'frameview',
+                id: 'frameViewSync',
+                source: true,
+                target: true,
+                options: {
+                  viewportIndex: 24,
+                },
+              },
+            ],
+          },
+          displaySets: [
+            {
+              id: 'activeDisplaySet',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'frameView',
       id: '4x4',
       viewportStructure: {
         layoutType: 'grid',
