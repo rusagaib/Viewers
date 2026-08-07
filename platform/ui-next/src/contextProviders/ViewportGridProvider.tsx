@@ -11,6 +11,8 @@ import merge from 'lodash.merge';
 import PropTypes from 'prop-types';
 import { ViewportGridService, utils } from '@ohif/core';
 
+import html2canvas from 'html2canvas';
+
 const DEFAULT_STATE: AppTypes.ViewportGrid.State = {
   activeViewportId: null,
   layout: {
@@ -126,6 +128,7 @@ interface ViewportGridApi {
   publishViewportsReady: () => void;
   getDisplaySetsUIDsForViewport: (viewportId: string) => string[];
   isReferenceViewable: (viewportId: string, viewRef, options?) => boolean;
+  captureFrameView: () => void;
 }
 
 // Update the context type
@@ -474,6 +477,41 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
     return Math.min(viewports.size, numCols * numRows);
   }, [viewportGridState]);
 
+  // capture FrameView
+  // const [capturePreview, setCapturePreview] = useState<string | null>(null);
+  const captureFrameView = useCallback(async () => {
+    console.log("🔥 captureFrameView()");
+
+    // const [capturePreview, setCapturePreview] = useState<string | null>(null);
+
+    const element = document.querySelector(
+      '[data-cy="viewport-grid"]'
+    ) as HTMLElement;
+
+    if (!element) {
+      console.error("viewport-grid tidak ditemukan");
+      return;
+    }
+
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#000",
+    });
+
+    // const dataUrl = canvas.toDataURL("image/png");
+
+    // setCapturePreview(dataUrl);
+
+    console.log(canvas);
+    document.body.appendChild(canvas);
+    const link = document.createElement("a");
+    link.download = "5x5.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+  }, []);
+
   /**
    * Sets the implementation of ViewportGridService that can be used by extensions.
    *
@@ -494,6 +532,7 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
         setViewportIsReady,
         getViewportState,
         getGridViewportsReady,
+        captureFrameView,
       });
     }
   }, [
@@ -508,6 +547,7 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
     setViewportIsReady,
     getGridViewportsReady,
     getViewportState,
+    captureFrameView,
   ]);
 
   // run many of the calls through the service itself since we want to publish events
@@ -530,12 +570,22 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
     publishViewportsReady: () => service.publishViewportsReady(),
     getLayoutOptionsFromState: state => service.getLayoutOptionsFromState(state),
     getDisplaySetsUIDsForViewport: viewportId => service.getDisplaySetsUIDsForViewport(viewportId),
+    captureFrameView,
   };
 
+  //     {
+  //   capturePreview && (
+  //     <CapturePreviewModal
+  //       image={capturePreview}
+  //       onClose={() => setCapturePreview(null)}
+  //     />
+  //   )
+  // }
   return (
     <ViewportGridContext.Provider value={[viewportGridState, api]}>
       {children}
     </ViewportGridContext.Provider>
+
   );
 }
 

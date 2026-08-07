@@ -14,6 +14,8 @@ function ViewerViewportGrid(props: withAppTypes) {
   const { numCols, numRows } = layout;
   const layoutHash = useRef(null);
 
+  const frameRef = useRef<HTMLDivElement>(null);
+
   const { displaySetService, hangingProtocolService, uiNotificationService, customizationService } =
     servicesManager.services;
 
@@ -138,6 +140,20 @@ function ViewerViewportGrid(props: withAppTypes) {
       unsubscribe();
     };
   }, []);
+
+  // capture frameview
+  // useEffect(() => {
+  //   const { unsubscribe } = viewportGridService.subscribe(
+  //     viewportGridService.EVENTS.CAPTURE_FRAMEVIEW,
+  //     () => {
+  //       console.log('🔥 Capture event received');
+  //       console.log('viewportGrid =', viewportGrid);
+  //       console.log('viewportGridService =', viewportGridService);
+  //     }
+  //   );
+  //
+  //   return () => unsubscribe();
+  // }, [viewportGridService]);
 
   // Check viewport readiness in useEffect
   useEffect(() => {
@@ -305,7 +321,9 @@ function ViewerViewportGrid(props: withAppTypes) {
   }
 
   return (
-    <div className="border-input h-[calc(100%-0.25rem)] w-full border">
+    <div
+      ref={frameRef}
+      className="border-input h-[calc(100%-0.25rem)] w-full border">
       <ViewportGrid
         numRows={numRows}
         numCols={numCols}

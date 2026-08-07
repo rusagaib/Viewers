@@ -13,6 +13,7 @@ class ViewportGridService extends PubSubService {
     GRID_SIZE_CHANGED: 'event::gridSizeChanged',
     VIEWPORTS_READY: 'event::viewportsReady',
     VIEWPORT_ONDROP_HANDLED: 'event::viewportOnDropHandled',
+    CAPTURE_FRAMEVIEW: 'event::captureFrameView',
   };
 
   public static REGISTRATION = {
@@ -90,6 +91,12 @@ class ViewportGridService extends PubSubService {
     }, {});
   }
 
+  public captureFrameView() {
+    if (this.serviceImplementation._captureFrameView) {
+      return this.serviceImplementation._captureFrameView();
+    }
+  }
+
   public setServiceImplementation({
     getState: getStateImplementation,
     setActiveViewportId: setActiveViewportIdImplementation,
@@ -101,9 +108,13 @@ class ViewportGridService extends PubSubService {
     getNumViewportPanes: getNumViewportPanesImplementation,
     setViewportIsReady: setViewportIsReadyImplementation,
     getViewportState: getViewportStateImplementation,
+    captureFrameView: captureFrameViewImplementation,
   }): void {
     if (getViewportStateImplementation) {
       this.serviceImplementation._getViewportState = getViewportStateImplementation;
+    }
+    if (captureFrameViewImplementation) {
+      this.serviceImplementation._captureFrameView = captureFrameViewImplementation;
     }
     if (getStateImplementation) {
       this.serviceImplementation._getState = getStateImplementation;
@@ -139,6 +150,24 @@ class ViewportGridService extends PubSubService {
   public publishViewportsReady() {
     this._broadcastEvent(this.EVENTS.VIEWPORTS_READY, {});
   }
+
+  // public publishCaptureFrameView() {
+  //   // this._broadcastEvent(
+  //   //   this.EVENTS.CAPTURE_FRAMEVIEW,
+  //   //   {}
+  //   // );
+  // }
+
+  // public publishCaptureFrameView() {
+  //   this._broadcastEvent(
+  //     
+  //     {}
+  //   );
+  // }
+
+  // const captureFrameView = useCallback(() => {
+  //   console.log('🔥 captureFrameView()');
+  // }, []);
 
   public publishViewportOnDropHandled(eventData) {
     this._broadcastEvent(this.EVENTS.VIEWPORT_ONDROP_HANDLED, { eventData });

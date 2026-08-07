@@ -216,6 +216,8 @@ export const toolbarSections = {
     'TrackballRotate',
     'WindowLevel',
     'Capture',
+    // add button capture frameview
+    'CaptureFrameView',
     'Layout',
     'Crosshairs',
     'MoreTools',

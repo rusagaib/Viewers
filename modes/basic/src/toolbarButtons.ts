@@ -631,6 +631,23 @@ const toolbarButtons: Button[] = [
       ],
     },
   },
+  // button capture frameview
+  {
+    id: 'CaptureFrameView',
+    uiType: 'ohif.toolButton',
+    props: {
+      icon: 'tool-capture',
+      label: i18n.t('Buttons:Capture FrameView'),
+      commands: 'captureFrameView',
+      evaluate: [
+        'evaluate.action',
+        {
+          name: 'evaluate.viewport.supported',
+          unsupportedViewportTypes: ['video', 'wholeSlide'],
+        },
+      ],
+    },
+  },
   {
     id: 'Layout',
     uiType: 'ohif.layoutSelector',
