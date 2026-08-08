@@ -100,5 +100,12 @@ export default {
         numCols: 3,
       },
     },
+    {
+      icon: 'layout-common-5x5',
+      commandOptions: {
+        numRows: 5,
+        numCols: 5,
+      },
+    },
   ],
 };

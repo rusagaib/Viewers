@@ -46,6 +46,13 @@ function ToolbarLayoutSelectorWithServices({
         numCols: 1,
       },
     },
+    {
+      icon: 'layout-common-5x5',
+      commandOptions: {
+        numRows: 5,
+        numCols: 5,
+      },
+    },
   ];
 
   // Get the advanced presets generator from the customization service
@@ -57,56 +64,56 @@ function ToolbarLayoutSelectorWithServices({
   const advancedPresets = advancedPresetsGenerator
     ? advancedPresetsGenerator({ servicesManager })
     : [
-        {
-          title: 'MPR',
-          icon: 'layout-three-col',
-          commandOptions: {
-            protocolId: 'mpr',
-          },
+      {
+        title: 'MPR',
+        icon: 'layout-three-col',
+        commandOptions: {
+          protocolId: 'mpr',
         },
-        {
-          title: '3D four up',
-          icon: 'layout-four-up',
-          commandOptions: {
-            protocolId: '3d-four-up',
-          },
+      },
+      {
+        title: '3D four up',
+        icon: 'layout-four-up',
+        commandOptions: {
+          protocolId: '3d-four-up',
         },
-        {
-          title: '3D main',
-          icon: 'layout-three-row',
-          commandOptions: {
-            protocolId: '3d-main',
-          },
+      },
+      {
+        title: '3D main',
+        icon: 'layout-three-row',
+        commandOptions: {
+          protocolId: '3d-main',
         },
-        {
-          title: 'Axial Primary',
-          icon: 'layout-side-by-side',
-          commandOptions: {
-            protocolId: 'axial-primary',
-          },
+      },
+      {
+        title: 'Axial Primary',
+        icon: 'layout-side-by-side',
+        commandOptions: {
+          protocolId: 'axial-primary',
         },
-        {
-          title: '3D only',
-          icon: 'layout-single',
-          commandOptions: {
-            protocolId: '3d-only',
-          },
+      },
+      {
+        title: '3D only',
+        icon: 'layout-single',
+        commandOptions: {
+          protocolId: '3d-only',
         },
-        {
-          title: '3D primary',
-          icon: 'layout-side-by-side',
-          commandOptions: {
-            protocolId: '3d-primary',
-          },
+      },
+      {
+        title: '3D primary',
+        icon: 'layout-side-by-side',
+        commandOptions: {
+          protocolId: '3d-primary',
         },
-        {
-          title: 'Frame View',
-          icon: 'icon-stack',
-          commandOptions: {
-            protocolId: 'frame-view',
-          },
+      },
+      {
+        title: 'Frame View',
+        icon: 'icon-stack',
+        commandOptions: {
+          protocolId: 'frame-view',
         },
-      ];
+      },
+    ];
 
   // Unified selection handler that dispatches to the appropriate command
   const handleSelectionChange = useCallback(

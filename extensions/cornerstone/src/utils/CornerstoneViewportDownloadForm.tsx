@@ -220,46 +220,16 @@ const CornerstoneViewportDownloadForm = ({
   }, [viewportDimensions, showAnnotations]);
 
   const handleDownload = async (baseFilename: string, fileType: string) => {
-    // let target: HTMLElement | null;
-    // if (captureTarget === 'viewport') {
-    //   target = document.querySelector(
-    //     `div[data-viewport-uid="${VIEWPORT_ID}"]`
-    //   );
-    // } else {
-    //   target = document.querySelector(
-    //     'div[data-cy="viewport-grid"]'
-    //   );
-    // }
-    //
-    const target = document.querySelector(
-      'div[data-cy="viewport-grid"]'
+    const divForDownloadViewport = document.querySelector(
+      `div[data-viewport-uid="${VIEWPORT_ID}"]`
     );
-
-    if (!target) {
-      console.debug('No capture target found');
+    if (!divForDownloadViewport) {
+      console.debug('No viewport found for download');
       return;
     }
-
-    // const filename = `${baseFilename}.${fileType}`;
-    // const canvas = await html2canvas(target!);
-    //
-    // downloadUrl(
-    //   canvas.toDataURL(`image/${fileType}`, 1.0),
-    //   { filename }
-    // );
-
-    // const divForDownloadViewport = document.querySelector(
-    //   `div[data-viewport-uid="${VIEWPORT_ID}"]`
-    // );
-    //
-    // if (!divForDownloadViewport) {
-    //   console.debug('No viewport found for download');
-    //   return;
-    // }
-    //
-    // const filename = `${baseFilename}.${fileType}`;
-    // const canvas = await html2canvas(divForDownloadViewport as HTMLElement);
-    // downloadUrl(canvas.toDataURL(`image/${fileType}`, 1.0), { filename });
+    const filename = `${baseFilename}.${fileType}`;
+    const canvas = await html2canvas(divForDownloadViewport as HTMLElement);
+    downloadUrl(canvas.toDataURL(`image/${fileType}`, 1.0), { filename });
   };
 
   const ViewportDownloadFormNew = customizationService.getCustomization(
