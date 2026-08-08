@@ -13,7 +13,8 @@ import { ViewportGridService, utils } from '@ohif/core';
 
 import html2canvas from 'html2canvas';
 
-import { getEnabledElement, getRenderingEngine } from '@cornerstonejs/core';
+import { getEnabledElement, getRenderingEngine, Enums } from '@cornerstonejs/core';
+
 import { ToolGroupManager } from '@cornerstonejs/tools';
 
 const DEFAULT_STATE: AppTypes.ViewportGrid.State = {
@@ -480,494 +481,233 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
     return Math.min(viewports.size, numCols * numRows);
   }, [viewportGridState]);
 
-  // capture FrameView
-  // const [capturePreview, setCapturePreview] = useState<string | null>(null);
-  // const captureFrameView = useCallback(async () => {
-  //   console.log("🔥 captureFrameView()");
-  //
-  //   // const [capturePreview, setCapturePreview] = useState<string | null>(null);
-  //
-  //   const element = document.querySelector(
-  //     '[data-cy="viewport-grid"]'
-  //   ) as HTMLElement;
-  //
-  //   if (!element) {
-  //     console.error("viewport-grid tidak ditemukan");
-  //     return;
-  //   }
-  //
-  //   const canvas = await html2canvas(element, {
-  //     scale: 2,
-  //     useCORS: true,
-  //     backgroundColor: "#000",
-  //   });
-  //
-  //   // const dataUrl = canvas.toDataURL("image/png");
-  //
-  //   // setCapturePreview(dataUrl);
-  //
-  //   console.log(canvas);
-  //   document.body.appendChild(canvas);
-  //   const link = document.createElement("a");
-  //   link.download = "5x5.png";
-  //   link.href = canvas.toDataURL("image/png");
-  //   link.click();
-  //
-  // }, []);
-
-  // const captureFrameView = useCallback(async () => {
-  //   console.log('🔥 captureFrameView()');
-  //
-  //   const element = document.querySelector(
-  //     '[data-cy="viewport-grid"]'
-  //   ) as HTMLElement | null;
-  //
-  //   if (!element) {
-  //     console.error('❌ viewport-grid tidak ditemukan');
-  //     return;
-  //   }
-  //
-  //   /**
-  //    * Simpan state ToolGroup sebelum annotation dimatikan.
-  //    *
-  //    * Satu ToolGroup bisa dipakai oleh beberapa viewport,
-  //    * jadi kita deduplicate berdasarkan ToolGroup ID.
-  //    */
-  //   const savedToolGroups = new Map<
-  //     string,
-  //     {
-  //       toolGroup: any;
-  //       toolModes: Record<
-  //         string,
-  //         {
-  //           mode: any;
-  //           bindings: any;
-  //         }
-  //       >;
-  //     }
-  //   >();
-  //
-  //   try {
-  //     /**
-  //      * ============================================================
-  //      * 1. Cari semua viewport yang sedang aktif di ViewportGrid
-  //      * ============================================================
-  //      */
-  //     const { viewports } = viewportGridState;
-  //
-  //     for (const viewportState of viewports.values()) {
-  //       const viewportId =
-  //         viewportState.viewportOptions?.viewportId || viewportState.viewportId;
-  //
-  //       if (!viewportId) {
-  //         continue;
-  //       }
-  //
-  //       /**
-  //        * Cari DOM element Cornerstone viewport.
-  //        *
-  //        * Biasanya OHIF menggunakan:
-  //        * div[data-viewport-uid="..."]
-  //        */
-  //       const viewportElement = document.querySelector(
-  //         `[data-viewport-uid="${viewportId}"]`
-  //       ) as HTMLElement | null;
-  //
-  //       if (!viewportElement) {
-  //         console.warn(
-  //           `⚠️ DOM viewport tidak ditemukan: ${viewportId}`
-  //         );
-  //         continue;
-  //       }
-  //
-  //       let enabledElement;
-  //
-  //       try {
-  //         enabledElement = getEnabledElement(viewportElement);
-  //       } catch (error) {
-  //         console.warn(
-  //           `⚠️ Tidak bisa mendapatkan enabled element: ${viewportId}`,
-  //           error
-  //         );
-  //         continue;
-  //       }
-  //
-  //       if (!enabledElement) {
-  //         continue;
-  //       }
-  //
-  //       const {
-  //         viewportId: enabledViewportId,
-  //         renderingEngineId,
-  //       } = enabledElement;
-  //
-  //       /**
-  //        * Ambil ToolGroup yang digunakan viewport ini.
-  //        */
-  //       const toolGroup = ToolGroupManager.getToolGroupForViewport(
-  //         enabledViewportId,
-  //         renderingEngineId
-  //       );
-  //
-  //       if (!toolGroup) {
-  //         console.warn(
-  //           `⚠️ ToolGroup tidak ditemukan untuk viewport: ${enabledViewportId}`
-  //         );
-  //         continue;
-  //       }
-  //
-  //       /**
-  //        * ToolGroup mempunyai ID yang sama untuk viewport
-  //        * yang menggunakan group yang sama.
-  //        */
-  //       const toolGroupId = toolGroup.id;
-  //
-  //       if (savedToolGroups.has(toolGroupId)) {
-  //         continue;
-  //       }
-  //
-  //       /**
-  //        * ==========================================================
-  //        * 2. Simpan mode + bindings semua tool
-  //        * ==========================================================
-  //        *
-  //        * Ini penting supaya setelah capture kondisi viewer
-  //        * benar-benar kembali seperti sebelumnya.
-  //        */
-  //       const toolModes: Record<
-  //         string,
-  //         {
-  //           mode: any;
-  //           bindings: any;
-  //         }
-  //       > = {};
-  //
-  //       Object.keys(toolGroup.toolOptions).forEach(toolName => {
-  //         const tool = toolGroup.toolOptions[toolName];
-  //
-  //         if (!tool) {
-  //           return;
-  //         }
-  //
-  //         const { mode, bindings } = tool;
-  //
-  //         toolModes[toolName] = {
-  //           mode,
-  //           bindings,
-  //         };
-  //       });
-  //
-  //       savedToolGroups.set(toolGroupId, {
-  //         toolGroup,
-  //         toolModes,
-  //       });
-  //     }
-  //
-  //     console.log(
-  //       `🛠️ ToolGroup ditemukan: ${savedToolGroups.size}`
-  //     );
-  //
-  //     /**
-  //      * ============================================================
-  //      * 3. Disable annotation tools
-  //      * ============================================================
-  //      */
-  //     savedToolGroups.forEach(({ toolGroup }) => {
-  //       const toolInstances = toolGroup.getToolInstances();
-  //
-  //       Object.values(toolInstances).forEach((toolInstance: any) => {
-  //         /**
-  //          * Sama seperti CornerstoneViewportDownloadForm.tsx:
-  //          *
-  //          * tool dianggap annotation jika:
-  //          * constructor.isAnnotation !== false
-  //          */
-  //         if (toolInstance.constructor.isAnnotation !== false) {
-  //           try {
-  //             console.log(
-  //               `🚫 Disable annotation: ${toolInstance.toolName}`
-  //             );
-  //
-  //             toolGroup.setToolDisabled(toolInstance.toolName);
-  //           } catch (error) {
-  //             console.warn(
-  //               `⚠️ Gagal disable tool: ${toolInstance.toolName}`,
-  //               error
-  //             );
-  //           }
-  //         }
-  //       });
-  //     });
-  //
-  //     /**
-  //      * ============================================================
-  //      * 4. Render ulang semua rendering engine
-  //      * ============================================================
-  //      *
-  //      * Kita collect renderingEngineId dari viewport yang ada.
-  //      */
-  //     const renderingEngineIds = new Set<string>();
-  //
-  //     for (const viewportState of viewports.values()) {
-  //       const viewportId =
-  //         viewportState.viewportOptions?.viewportId ||
-  //         viewportState.viewportId;
-  //
-  //       if (!viewportId) {
-  //         continue;
-  //       }
-  //
-  //       const viewportElement = document.querySelector(
-  //         `[data-viewport-uid="${viewportId}"]`
-  //       ) as HTMLElement | null;
-  //
-  //       if (!viewportElement) {
-  //         continue;
-  //       }
-  //
-  //       try {
-  //         const enabledElement = getEnabledElement(viewportElement);
-  //
-  //         if (enabledElement?.renderingEngineId) {
-  //           renderingEngineIds.add(
-  //             enabledElement.renderingEngineId
-  //           );
-  //         }
-  //       } catch (error) {
-  //         console.warn(
-  //           `⚠️ Tidak bisa mendapatkan renderingEngineId: ${viewportId}`,
-  //           error
-  //         );
-  //       }
-  //     }
-  //
-  //     /**
-  //      * Render setelah annotation disabled.
-  //      *
-  //      * Resize + render mengikuti pola bawaan OHIF.
-  //      */
-  //     renderingEngineIds.forEach(renderingEngineId => {
-  //       const renderingEngine =
-  //         getRenderingEngine(renderingEngineId);
-  //
-  //       if (!renderingEngine) {
-  //         return;
-  //       }
-  //
-  //       try {
-  //         renderingEngine.resize();
-  //         renderingEngine.render();
-  //       } catch (error) {
-  //         console.warn(
-  //           `⚠️ Rendering gagal: ${renderingEngineId}`,
-  //           error
-  //         );
-  //       }
-  //     });
-  //
-  //     /**
-  //      * Beri browser kesempatan menyelesaikan rendering.
-  //      */
-  //     await new Promise(resolve =>
-  //       requestAnimationFrame(() => resolve(null))
-  //     );
-  //
-  //     await new Promise(resolve =>
-  //       requestAnimationFrame(() => resolve(null))
-  //     );
-  //
-  //     /**
-  //      * ============================================================
-  //      * 5. Capture seluruh viewport grid
-  //      * ============================================================
-  //      */
-  //     console.log('📸 Capturing viewport grid...');
-  //
-  //     const canvas = await html2canvas(element, {
-  //       scale: 2,
-  //       useCORS: true,
-  //       backgroundColor: '#000',
-  //     });
-  //
-  //     console.log('✅ Capture selesai', canvas);
-  //
-  //     /**
-  //      * Jangan append canvas ke body kalau tidak diperlukan.
-  //      * Langsung download.
-  //      */
-  //     const link = document.createElement('a');
-  //
-  //     link.download = '5x5.png';
-  //     link.href = canvas.toDataURL('image/png');
-  //
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     link.remove();
-  //
-  //     console.log('💾 5x5.png downloaded');
-  //   } catch (error) {
-  //     console.error('❌ Capture FrameView gagal:', error);
-  //   } finally {
-  //     /**
-  //      * ============================================================
-  //      * 6. RESTORE SEMUA TOOL
-  //      * ============================================================
-  //      *
-  //      * Ini WAJIB dilakukan walaupun html2canvas gagal.
-  //      */
-  //     console.log('♻️ Restoring ToolGroup state...');
-  //
-  //     savedToolGroups.forEach(({ toolGroup, toolModes }) => {
-  //       Object.entries(toolModes).forEach(
-  //         ([toolName, { mode, bindings }]) => {
-  //           try {
-  //             toolGroup.setToolMode(toolName, mode, {
-  //               bindings,
-  //             });
-  //           } catch (error) {
-  //             console.debug(
-  //               `⚠️ Error restoring tool mode: ${toolName}`,
-  //               error
-  //             );
-  //           }
-  //         }
-  //       );
-  //     });
-  //
-  //     /**
-  //      * Render kembali setelah annotation dikembalikan.
-  //      */
-  //     const renderingEngineIds = new Set<string>();
-  //
-  //     for (const viewportState of viewportGridState.viewports.values()) {
-  //       const viewportId =
-  //         viewportState.viewportOptions?.viewportId ||
-  //         viewportState.viewportId;
-  //
-  //       if (!viewportId) {
-  //         continue;
-  //       }
-  //
-  //       const viewportElement = document.querySelector(
-  //         `[data-viewport-uid="${viewportId}"]`
-  //       ) as HTMLElement | null;
-  //
-  //       if (!viewportElement) {
-  //         continue;
-  //       }
-  //
-  //       try {
-  //         const enabledElement =
-  //           getEnabledElement(viewportElement);
-  //
-  //         if (enabledElement?.renderingEngineId) {
-  //           renderingEngineIds.add(
-  //             enabledElement.renderingEngineId
-  //           );
-  //         }
-  //       } catch (error) {
-  //         console.debug(
-  //           `⚠️ Tidak bisa restore rendering engine: ${viewportId}`,
-  //           error
-  //         );
-  //       }
-  //     }
-  //
-  //     renderingEngineIds.forEach(renderingEngineId => {
-  //       const renderingEngine =
-  //         getRenderingEngine(renderingEngineId);
-  //
-  //       if (!renderingEngine) {
-  //         return;
-  //       }
-  //
-  //       try {
-  //         renderingEngine.resize();
-  //         renderingEngine.render();
-  //       } catch (error) {
-  //         console.debug(
-  //           `⚠️ Error rendering setelah restore: ${renderingEngineId}`,
-  //           error
-  //         );
-  //       }
-  //     });
-  //
-  //     console.log('✅ ToolGroup state restored');
-  //   }
-  // }, [viewportGridState]);
-
-
+  // capture frameView 
   const captureFrameView = useCallback(async () => {
     console.log('captureFrameView()');
 
-    const element = document.querySelector(
-      '[data-cy="viewport-grid"]'
-    ) as HTMLElement | null;
+    const { viewports } = viewportGridState;
 
-    if (!element) {
-      // console.error('viewport-grid tidak ditemukan');
+    const viewportStates = Array.from(viewports.values()).filter(
+      viewport => viewport.displaySetInstanceUIDs?.length > 0
+    );
+
+    console.log('Viewport state:', viewportStates.length);
+
+    if (viewportStates.length !== 25) {
+      console.error(
+        `Expected 25 viewports, found ${viewportStates.length}`
+      );
       return;
     }
 
-    const elementsToHide = Array.from(
-      element.querySelectorAll('.noselect, .pointer-events-none')
-    ) as HTMLElement[];
+    // CONFIG
+    const CELL_SIZE = 512;
+    const GRID_SIZE = 5;
 
-    // console.log(
-    //   `Elements yang di-hide: ${elementsToHide.length}`
-    // );
+    // Expecting for zoom images content:
+    // 1.0 = normal
+    // 1.2 = sedikit lebih besar
+    // 1.4 = lebih besar
+    // 1.6 = lebih besar lagi
+    const IMAGE_ZOOM = 1.4;
+    // whelp i was spend nearly 8h, and so i think this crap param doesn't work as expected..
+    // but who cares ill let it here just in-case there's update from source cornerstone.js
 
-    // Simpan display asli
-    const originalDisplay = new Map<HTMLElement, string>();
+    // OUTPUT CANVAS
+    const outputCanvas = document.createElement('canvas');
 
-    try {
-      elementsToHide.forEach(el => {
-        originalDisplay.set(el, el.style.display);
+    outputCanvas.width = CELL_SIZE * GRID_SIZE;
+    outputCanvas.height = CELL_SIZE * GRID_SIZE;
 
-        el.style.display = 'none';
-      });
+    const ctx = outputCanvas.getContext('2d');
 
-      // console.log('.noselect dan .pointer-events-none hidden');
-
-      // Tunggu browser repaint
-      await new Promise<void>(resolve => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            resolve();
-          });
-        });
-      });
-
-      // CAPTURE
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#000',
-      });
-
-      // console.log('Capture selesai');
-
-      // DOWNLOAD
-      const link = document.createElement('a');
-
-      link.download = '5x5.png';
-      link.href = canvas.toDataURL('image/png');
-
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error('Capture FrameView gagal:', error);
-    } finally {
-      // RESTORE
-      originalDisplay.forEach((display, el) => {
-        el.style.display = display;
-      });
-
-      // console.log('.noselect dan .pointer-events-none restored');
+    if (!ctx) {
+      console.error('can not find canvas context');
+      return;
     }
-  }, []);
 
+    // Background
+    ctx.fillStyle = '#000';
+
+    ctx.fillRect(
+      0,
+      0,
+      outputCanvas.width,
+      outputCanvas.height
+    );
+
+    // PROCESS EACH VIEWPORT
+    for (let index = 0; index < viewportStates.length; index++) {
+      const viewportState = viewportStates[index];
+
+      const viewportId =
+        viewportState.viewportOptions?.viewportId ||
+        viewportState.viewportId;
+
+      if (!viewportId) {
+        console.warn(
+          `Viewport ${index} does not have viewportId`
+        );
+        continue;
+      }
+
+      // console.log(
+      //   `Processing viewport ${index + 1}/25:`,
+      //   viewportId
+      // );
+
+      // Find DOM element viewport
+      const viewportElement = document.querySelector(
+        `[data-viewport-uid="${viewportId}"]`
+      ) as HTMLElement | null;
+
+      if (!viewportElement) {
+        // console.warn(
+        //   `DOM viewport not found: ${viewportId}`
+        // );
+        continue;
+      }
+
+      // Use enabled element
+      let enabledElement;
+
+      try {
+        enabledElement = getEnabledElement(viewportElement);
+      } catch (error) {
+        console.warn(
+          `can not get enabledElement: ${viewportId}`,
+          error
+        );
+        continue;
+      }
+
+      if (!enabledElement) {
+        continue;
+      }
+
+      // Use rendering engine
+      const renderingEngineId =
+        enabledElement.renderingEngineId;
+
+      const renderingEngine =
+        getRenderingEngine(renderingEngineId);
+
+      if (!renderingEngine) {
+        console.warn(
+          `Rendering engine not found: ${renderingEngineId}`
+        );
+        continue;
+      }
+
+      // Use Cornerstone viewport
+      const cornerstoneViewport =
+        renderingEngine.getViewport(viewportId);
+
+      if (!cornerstoneViewport) {
+        console.warn(
+          `Cornerstone viewport not found: ${viewportId}`
+        );
+        continue;
+      }
+
+      // Make CANVAS 512x512 VIEWPORT
+      const cellCanvas = document.createElement('canvas');
+
+      cellCanvas.width = CELL_SIZE;
+      cellCanvas.height = CELL_SIZE;
+
+      const cellCtx = cellCanvas.getContext('2d');
+
+      if (!cellCtx) {
+        continue;
+      }
+
+      cellCtx.fillStyle = '#000';
+
+      cellCtx.fillRect(
+        0,
+        0,
+        CELL_SIZE,
+        CELL_SIZE
+      );
+
+      // CANVAS CORNERSTONE
+      const sourceCanvas =
+        viewportElement.querySelector('canvas') as HTMLCanvasElement | null;
+
+      if (!sourceCanvas) {
+        console.warn(
+          `Canvas Cornerstone not found: ${viewportId}`
+        );
+        continue;
+      }
+
+      // Set ZOOM IMAGE - ASPECT RATIO %
+      const sourceWidth = sourceCanvas.width;
+      const sourceHeight = sourceCanvas.height;
+
+      // Scale normal img source can fillout cell
+      const baseScale = Math.min(
+        CELL_SIZE / sourceWidth,
+        CELL_SIZE / sourceHeight
+      );
+
+      // add zoom
+      const scale = baseScale * IMAGE_ZOOM;
+
+      const drawWidth = sourceWidth * scale;
+      const drawHeight = sourceHeight * scale;
+
+      // Center image
+      const drawX =
+        (CELL_SIZE - drawWidth) / 2;
+
+      const drawY =
+        (CELL_SIZE - drawHeight) / 2;
+
+      cellCtx.drawImage(
+        sourceCanvas,
+        drawX,
+        drawY,
+        drawWidth,
+        drawHeight
+      );
+
+      // Insert CELL to GRID 5x5
+      const row = Math.floor(index / GRID_SIZE);
+      const col = index % GRID_SIZE;
+
+      const x = col * CELL_SIZE;
+      const y = row * CELL_SIZE;
+
+      ctx.drawImage(
+        cellCanvas,
+        x,
+        y
+      );
+    }
+
+    // DOWNLOAD
+    const link = document.createElement('a');
+
+    link.download = '5x5.png';
+
+    link.href =
+      outputCanvas.toDataURL('image/png');
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    console.log(
+      '5x5 capture finished:',
+      outputCanvas.width,
+      'x',
+      outputCanvas.height
+    );
+  }, [viewportGridState]);
 
   /**
    * Sets the implementation of ViewportGridService that can be used by extensions.
