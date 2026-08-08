@@ -13,7 +13,6 @@ class ViewportGridService extends PubSubService {
     GRID_SIZE_CHANGED: 'event::gridSizeChanged',
     VIEWPORTS_READY: 'event::viewportsReady',
     VIEWPORT_ONDROP_HANDLED: 'event::viewportOnDropHandled',
-    CAPTURE_FRAMEVIEW: 'event::captureFrameView',
   };
 
   public static REGISTRATION = {
@@ -150,24 +149,6 @@ class ViewportGridService extends PubSubService {
   public publishViewportsReady() {
     this._broadcastEvent(this.EVENTS.VIEWPORTS_READY, {});
   }
-
-  // public publishCaptureFrameView() {
-  //   // this._broadcastEvent(
-  //   //   this.EVENTS.CAPTURE_FRAMEVIEW,
-  //   //   {}
-  //   // );
-  // }
-
-  // public publishCaptureFrameView() {
-  //   this._broadcastEvent(
-  //     
-  //     {}
-  //   );
-  // }
-
-  // const captureFrameView = useCallback(() => {
-  //   console.log('🔥 captureFrameView()');
-  // }, []);
 
   public publishViewportOnDropHandled(eventData) {
     this._broadcastEvent(this.EVENTS.VIEWPORT_ONDROP_HANDLED, { eventData });

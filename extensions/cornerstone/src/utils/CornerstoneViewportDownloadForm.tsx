@@ -115,10 +115,18 @@ const CornerstoneViewportDownloadForm = ({
       return;
     }
 
+
     const segmentationRepresentations =
       segmentation.state.getViewportSegmentationRepresentations(activeViewportId);
 
     const { viewport } = activeViewportEnabledElement;
+    // testing..
+    // console.log('🔥 VIEWPORT:', viewport);
+    // console.log('🔥 CANVAS:', viewport.getCanvas());
+    // console.log('🔥 CANVAS SIZE:', {
+    //   width: viewport.getCanvas().width,
+    //   height: viewport.getCanvas().height,
+    // });
     const downloadViewport = renderingEngine.getViewport(VIEWPORT_ID);
 
     try {
