@@ -481,48 +481,285 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
     return Math.min(viewports.size, numCols * numRows);
   }, [viewportGridState]);
 
+  // // capture frameView 
+  // // pr: add custom = cell size (width & height)
+  // // pr: add custom = grid size (viewports)
+  // const captureFrameView = useCallback(async () => {
+  //   console.log('captureFrameView()');
+  //
+  //   const { viewports } = viewportGridState;
+  //
+  //   const viewportStates = Array.from(viewports.values()).filter(
+  //     viewport => viewport.displaySetInstanceUIDs?.length > 0
+  //   );
+  //
+  //   console.log('Viewport state:', viewportStates.length);
+  //
+  //   // logic throw if not 25 viewport..
+  //   // if (viewportStates.length !== 25) {
+  //   //   console.error(
+  //   //     `Expected 25 viewports, found ${viewportStates.length}`
+  //   //   );
+  //   //   return;
+  //   // }
+  //
+  //   // CONFIG
+  //   const CELL_SIZE = 512;
+  //   const GRID_SIZE = 5;
+  //
+  //   // Expecting for zoom images content:
+  //   // 1.0 = normal
+  //   // 1.2 = sedikit lebih besar
+  //   // 1.4 = lebih besar
+  //   // 1.6 = lebih besar lagi
+  //   const IMAGE_ZOOM = 1.4;
+  //   // whelp i was spend nearly 8h, and so i think this crap param doesn't work as expected..
+  //   // but who cares ill let it here just in-case there's update from source cornerstone.js
+  //
+  //   // OUTPUT CANVAS
+  //   const outputCanvas = document.createElement('canvas');
+  //
+  //   outputCanvas.width = CELL_SIZE * GRID_SIZE;
+  //   outputCanvas.height = CELL_SIZE * GRID_SIZE;
+  //
+  //   const ctx = outputCanvas.getContext('2d');
+  //
+  //   if (!ctx) {
+  //     console.error('can not find canvas context');
+  //     return;
+  //   }
+  //
+  //   // Background
+  //   ctx.fillStyle = '#000';
+  //
+  //   ctx.fillRect(
+  //     0,
+  //     0,
+  //     outputCanvas.width,
+  //     outputCanvas.height
+  //   );
+  //
+  //   // PROCESS EACH VIEWPORT
+  //   for (let index = 0; index < viewportStates.length; index++) {
+  //     const viewportState = viewportStates[index];
+  //
+  //     const viewportId =
+  //       viewportState.viewportOptions?.viewportId ||
+  //       viewportState.viewportId;
+  //
+  //     if (!viewportId) {
+  //       console.warn(
+  //         `Viewport ${index} does not have viewportId`
+  //       );
+  //       continue;
+  //     }
+  //
+  //     // console.log(
+  //     //   `Processing viewport ${index + 1}/25:`,
+  //     //   viewportId
+  //     // );
+  //
+  //     // Find DOM element viewport
+  //     const viewportElement = document.querySelector(
+  //       `[data-viewport-uid="${viewportId}"]`
+  //     ) as HTMLElement | null;
+  //
+  //     if (!viewportElement) {
+  //       // console.warn(
+  //       //   `DOM viewport not found: ${viewportId}`
+  //       // );
+  //       continue;
+  //     }
+  //
+  //     // Use enabled element
+  //     let enabledElement;
+  //
+  //     try {
+  //       enabledElement = getEnabledElement(viewportElement);
+  //     } catch (error) {
+  //       console.warn(
+  //         `can not get enabledElement: ${viewportId}`,
+  //         error
+  //       );
+  //       continue;
+  //     }
+  //
+  //     if (!enabledElement) {
+  //       continue;
+  //     }
+  //
+  //     // Use rendering engine
+  //     const renderingEngineId =
+  //       enabledElement.renderingEngineId;
+  //
+  //     const renderingEngine =
+  //       getRenderingEngine(renderingEngineId);
+  //
+  //     if (!renderingEngine) {
+  //       console.warn(
+  //         `Rendering engine not found: ${renderingEngineId}`
+  //       );
+  //       continue;
+  //     }
+  //
+  //     // Use Cornerstone viewport
+  //     const cornerstoneViewport =
+  //       renderingEngine.getViewport(viewportId);
+  //
+  //     if (!cornerstoneViewport) {
+  //       console.warn(
+  //         `Cornerstone viewport not found: ${viewportId}`
+  //       );
+  //       continue;
+  //     }
+  //
+  //     // Make CANVAS 512x512 VIEWPORT
+  //     const cellCanvas = document.createElement('canvas');
+  //
+  //     cellCanvas.width = CELL_SIZE;
+  //     cellCanvas.height = CELL_SIZE;
+  //
+  //     const cellCtx = cellCanvas.getContext('2d');
+  //
+  //     if (!cellCtx) {
+  //       continue;
+  //     }
+  //
+  //     cellCtx.fillStyle = '#000';
+  //
+  //     cellCtx.fillRect(
+  //       0,
+  //       0,
+  //       CELL_SIZE,
+  //       CELL_SIZE
+  //     );
+  //
+  //     // CANVAS CORNERSTONE
+  //     const sourceCanvas =
+  //       viewportElement.querySelector('canvas') as HTMLCanvasElement | null;
+  //
+  //     if (!sourceCanvas) {
+  //       console.warn(
+  //         `Canvas Cornerstone not found: ${viewportId}`
+  //       );
+  //       continue;
+  //     }
+  //
+  //     // Set ZOOM IMAGE - ASPECT RATIO %
+  //     const sourceWidth = sourceCanvas.width;
+  //     const sourceHeight = sourceCanvas.height;
+  //
+  //     // Scale normal img source can fillout cell
+  //     const baseScale = Math.min(
+  //       CELL_SIZE / sourceWidth,
+  //       CELL_SIZE / sourceHeight
+  //     );
+  //
+  //     // add zoom
+  //     const scale = baseScale * IMAGE_ZOOM;
+  //
+  //     const drawWidth = sourceWidth * scale;
+  //     const drawHeight = sourceHeight * scale;
+  //
+  //     // Center image
+  //     const drawX =
+  //       (CELL_SIZE - drawWidth) / 2;
+  //
+  //     const drawY =
+  //       (CELL_SIZE - drawHeight) / 2;
+  //
+  //     cellCtx.drawImage(
+  //       sourceCanvas,
+  //       drawX,
+  //       drawY,
+  //       drawWidth,
+  //       drawHeight
+  //     );
+  //
+  //     // Insert CELL to GRID 5x5
+  //     const row = Math.floor(index / GRID_SIZE);
+  //     const col = index % GRID_SIZE;
+  //
+  //     const x = col * CELL_SIZE;
+  //     const y = row * CELL_SIZE;
+  //
+  //     ctx.drawImage(
+  //       cellCanvas,
+  //       x,
+  //       y
+  //     );
+  //   }
+  //
+  //   // DOWNLOAD
+  //   const link = document.createElement('a');
+  //
+  //   // link.download = '5x5.png';
+  //   link.download = 'frameViewCapture.png';
+  //
+  //   link.href =
+  //     outputCanvas.toDataURL('image/png');
+  //
+  //   document.body.appendChild(link);
+  //
+  //   link.click();
+  //
+  //   link.remove();
+  //
+  //   console.log(
+  //     'frameView capture finished:',
+  //     outputCanvas.width,
+  //     'x',
+  //     outputCanvas.height
+  //   );
+  // }, [viewportGridState]);
+
   // capture frameView 
+  // pr: add custom = cell size (width & height)
   const captureFrameView = useCallback(async () => {
     console.log('captureFrameView()');
 
-    const { viewports } = viewportGridState;
+    const { viewports, layout } = viewportGridState;
 
+    // GRID CONFIG FROM VIEWPORT-GRID
+    const GRID_ROWS = layout?.numRows ?? 1;
+    const GRID_COLS = layout?.numCols ?? 1;
+
+    const CELL_SIZE = 512;
+
+    console.log('Viewport grid:', {
+      rows: GRID_ROWS,
+      cols: GRID_COLS,
+      total: GRID_ROWS * GRID_COLS,
+    });
+
+    // VIEWPORT STATES
     const viewportStates = Array.from(viewports.values()).filter(
       viewport => viewport.displaySetInstanceUIDs?.length > 0
     );
 
-    console.log('Viewport state:', viewportStates.length);
+    console.log(
+      'Viewport state:',
+      viewportStates.length
+    );
 
-    if (viewportStates.length !== 25) {
-      console.error(
-        `Expected 25 viewports, found ${viewportStates.length}`
-      );
+    if (viewportStates.length === 0) {
+      console.error('No viewport with display set found');
       return;
     }
-
-    // CONFIG
-    const CELL_SIZE = 512;
-    const GRID_SIZE = 5;
-
-    // Expecting for zoom images content:
-    // 1.0 = normal
-    // 1.2 = sedikit lebih besar
-    // 1.4 = lebih besar
-    // 1.6 = lebih besar lagi
-    const IMAGE_ZOOM = 1.4;
-    // whelp i was spend nearly 8h, and so i think this crap param doesn't work as expected..
-    // but who cares ill let it here just in-case there's update from source cornerstone.js
 
     // OUTPUT CANVAS
     const outputCanvas = document.createElement('canvas');
 
-    outputCanvas.width = CELL_SIZE * GRID_SIZE;
-    outputCanvas.height = CELL_SIZE * GRID_SIZE;
+    outputCanvas.width =
+      CELL_SIZE * GRID_COLS;
+
+    outputCanvas.height =
+      CELL_SIZE * GRID_ROWS;
 
     const ctx = outputCanvas.getContext('2d');
 
     if (!ctx) {
-      console.error('can not find canvas context');
+      console.error('Cannot find canvas context');
       return;
     }
 
@@ -535,6 +772,9 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
       outputCanvas.width,
       outputCanvas.height
     );
+
+    // IMAGE ZOOM
+    const IMAGE_ZOOM = 1.4;
 
     // PROCESS EACH VIEWPORT
     for (let index = 0; index < viewportStates.length; index++) {
@@ -551,31 +791,25 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
         continue;
       }
 
-      // console.log(
-      //   `Processing viewport ${index + 1}/25:`,
-      //   viewportId
-      // );
-
-      // Find DOM element viewport
-      const viewportElement = document.querySelector(
-        `[data-viewport-uid="${viewportId}"]`
-      ) as HTMLElement | null;
+      // FIND DOM VIEWPORT
+      const viewportElement =
+        document.querySelector(
+          `[data-viewport-uid="${viewportId}"]`
+        ) as HTMLElement | null;
 
       if (!viewportElement) {
-        // console.warn(
-        //   `DOM viewport not found: ${viewportId}`
-        // );
         continue;
       }
 
-      // Use enabled element
+      // ENABLED ELEMENT
       let enabledElement;
 
       try {
-        enabledElement = getEnabledElement(viewportElement);
+        enabledElement =
+          getEnabledElement(viewportElement);
       } catch (error) {
         console.warn(
-          `can not get enabledElement: ${viewportId}`,
+          `Cannot get enabledElement: ${viewportId}`,
           error
         );
         continue;
@@ -585,7 +819,7 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
         continue;
       }
 
-      // Use rendering engine
+      // RENDERING ENGINE
       const renderingEngineId =
         enabledElement.renderingEngineId;
 
@@ -599,7 +833,7 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
         continue;
       }
 
-      // Use Cornerstone viewport
+      // CORNERSTONE VIEWPORT
       const cornerstoneViewport =
         renderingEngine.getViewport(viewportId);
 
@@ -610,13 +844,15 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
         continue;
       }
 
-      // Make CANVAS 512x512 VIEWPORT
-      const cellCanvas = document.createElement('canvas');
+      // CELL CANVAS
+      const cellCanvas =
+        document.createElement('canvas');
 
       cellCanvas.width = CELL_SIZE;
       cellCanvas.height = CELL_SIZE;
 
-      const cellCtx = cellCanvas.getContext('2d');
+      const cellCtx =
+        cellCanvas.getContext('2d');
 
       if (!cellCtx) {
         continue;
@@ -631,9 +867,11 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
         CELL_SIZE
       );
 
-      // CANVAS CORNERSTONE
+      // SOURCE CANVAS
       const sourceCanvas =
-        viewportElement.querySelector('canvas') as HTMLCanvasElement | null;
+        viewportElement.querySelector(
+          'canvas'
+        ) as HTMLCanvasElement | null;
 
       if (!sourceCanvas) {
         console.warn(
@@ -642,21 +880,28 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
         continue;
       }
 
-      // Set ZOOM IMAGE - ASPECT RATIO %
-      const sourceWidth = sourceCanvas.width;
-      const sourceHeight = sourceCanvas.height;
+      // IMAGE SCALE
+      const sourceWidth =
+        sourceCanvas.width;
 
-      // Scale normal img source can fillout cell
+      const sourceHeight =
+        sourceCanvas.height;
+
       const baseScale = Math.min(
         CELL_SIZE / sourceWidth,
         CELL_SIZE / sourceHeight
       );
 
-      // add zoom
-      const scale = baseScale * IMAGE_ZOOM;
+      const scale =
+        baseScale * IMAGE_ZOOM;
 
-      const drawWidth = sourceWidth * scale;
-      const drawHeight = sourceHeight * scale;
+      const drawWidth =
+        sourceWidth * scale;
+      // sourceWidth * baseScale;
+
+      const drawHeight =
+        sourceHeight * scale;
+      // sourceHeight * baseScale;
 
       // Center image
       const drawX =
@@ -673,12 +918,18 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
         drawHeight
       );
 
-      // Insert CELL to GRID 5x5
-      const row = Math.floor(index / GRID_SIZE);
-      const col = index % GRID_SIZE;
+      // GRID POSITION
+      const row =
+        Math.floor(index / GRID_COLS);
 
-      const x = col * CELL_SIZE;
-      const y = row * CELL_SIZE;
+      const col =
+        index % GRID_COLS;
+
+      const x =
+        col * CELL_SIZE;
+
+      const y =
+        row * CELL_SIZE;
 
       ctx.drawImage(
         cellCanvas,
@@ -688,9 +939,11 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
     }
 
     // DOWNLOAD
-    const link = document.createElement('a');
+    const link =
+      document.createElement('a');
 
-    link.download = '5x5.png';
+    link.download =
+      `${GRID_COLS}x${GRID_ROWS}.png`;
 
     link.href =
       outputCanvas.toDataURL('image/png');
@@ -702,12 +955,13 @@ export function ViewportGridProvider({ children, service }: ViewportGridProvider
     link.remove();
 
     console.log(
-      '5x5 capture finished:',
+      `${GRID_COLS}x${GRID_ROWS} capture finished:`,
       outputCanvas.width,
       'x',
       outputCanvas.height
     );
   }, [viewportGridState]);
+
 
   /**
    * Sets the implementation of ViewportGridService that can be used by extensions.
