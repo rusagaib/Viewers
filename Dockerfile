@@ -38,6 +38,7 @@ COPY . .
 # ============================================================
 # INSTALL DENGAN YARN
 # ============================================================
+RUN yarn config set workspaces-experimental true
 RUN yarn install --frozen-lockfile
 
 # ============================================================
@@ -52,12 +53,14 @@ RUN echo "=== BUILD DEPENDENCIES ===" \
 # ============================================================
 # BUILD
 # ============================================================
-ENV QUICK_BUILD=true
+# ENV QUICK_BUILD=true
 
 ARG APP_CONFIG=config/default.js
 ARG PUBLIC_URL=/
 
 ENV PUBLIC_URL=${PUBLIC_URL}
+
+ENV GENERATE_SOURCEMAP=false
 
 RUN yarn run show:config
 

@@ -8,7 +8,7 @@
 # have this file as their .dockerignore.
 
 # Output
-**/dist/
+# **/dist/
 **/build/
 
 # Dependencies
