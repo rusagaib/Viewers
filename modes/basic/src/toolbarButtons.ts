@@ -638,14 +638,7 @@ const toolbarButtons: Button[] = [
     props: {
       icon: 'tool-capture',
       label: i18n.t('Buttons:Capture FrameView'),
-      commands: 'captureFrameView',
-      evaluate: [
-        'evaluate.action',
-        {
-          name: 'evaluate.viewport.supported',
-          unsupportedViewportTypes: ['video', 'wholeSlide'],
-        },
-      ],
+      commands: 'captureFrameView'
     },
   },
   {

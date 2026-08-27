@@ -133,6 +133,11 @@ export function onModeEnter({
   panelService,
   segmentationService,
 }: withAppTypes) {
+
+  console.log('=== BASIC MODE TOOLBAR ===');
+  console.log('toolbarButtons:', this.toolbarButtons);
+  console.log('toolbarSections:', this.toolbarSections);
+
   const { measurementService, toolbarService, toolGroupService, customizationService } =
     servicesManager.services;
 
@@ -146,6 +151,9 @@ export function onModeEnter({
   for (const [key, section] of Object.entries(this.toolbarSections)) {
     toolbarService.updateSection(key, section);
   }
+
+  console.log('BUTTON:', toolbarService.getButton('CaptureFrameView'));
+  console.log('PRIMARY:', toolbarService.getButtonSection('primary'));
 
   if (!this.enableSegmentationEdit) {
     customizationService.setCustomizations({
@@ -208,6 +216,7 @@ export function onModeExit({ servicesManager }: withAppTypes) {
   cornerstoneViewportService.destroy();
 }
 
+// add button capture frameview
 export const toolbarSections = {
   [TOOLBAR_SECTIONS.primary]: [
     'MeasurementTools',
@@ -216,7 +225,6 @@ export const toolbarSections = {
     'TrackballRotate',
     'WindowLevel',
     'Capture',
-    // add button capture frameview
     'CaptureFrameView',
     'Layout',
     'Crosshairs',
