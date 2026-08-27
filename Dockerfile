@@ -56,7 +56,10 @@ RUN echo "=== BUILD DEPENDENCIES ===" \
 # ENV QUICK_BUILD=true
 
 ARG APP_CONFIG=config/default.js
-ARG PUBLIC_URL=/
+# dev
+# ARG PUBLIC_URL=/
+# prod
+ARG PUBLIC_URL=/public-assets/
 
 ENV PUBLIC_URL=${PUBLIC_URL}
 
@@ -78,7 +81,8 @@ RUN chmod u+x .docker/compressDist.sh \
 # ============================================================
 FROM nginxinc/nginx-unprivileged:1.27-alpine AS final
 
-ARG PUBLIC_URL=/
+# ARG PUBLIC_URL=/
+ARG PUBLIC_URL=/public-assets/
 ENV PUBLIC_URL=${PUBLIC_URL}
 
 ARG PORT=80
@@ -97,10 +101,15 @@ COPY --chown=nginx:nginx \
 
 RUN chmod 777 /usr/src/entrypoint.sh
 
+# dev
+# COPY --from=builder \
+#     /usr/src/app/platform/app/dist \
+#     /usr/share/nginx/html${PUBLIC_URL}
 
+# prod
 COPY --from=builder \
     /usr/src/app/platform/app/dist \
-    /usr/share/nginx/html${PUBLIC_URL}
+    /usr/share/nginx/html
 
 
 # Microscopy viewer needs to exist at root
